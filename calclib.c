@@ -1,5 +1,3 @@
-#ifndef CALCLIB_C
-#define CALCLIB_C
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
@@ -35,11 +33,6 @@ void formatValidator(int argc, char** argv) {
 						break;
 					case '*':
 						break;
-					case '/':
-						numberValidator(argv[i * 3 + j + 2]);
-						assert(atoi(argv[i * 3 + j + 2]) != 0 && "division by zero");
-						++j;
-						break;
 					case '%':
 						break;
 					default:
@@ -52,6 +45,7 @@ void formatValidator(int argc, char** argv) {
 
 int* calculation(int argc, char** argv) {
 	int* arr = (int*)malloc((argc / 3 - 1) * sizeof(int));
+	assert(arr != NULL && "memory allocation error");
 	for(int i = 0; i < argc / 3 - 1; i++){
 		switch(argv[i * 3 + 2][0]) {
 			case '+':
@@ -63,9 +57,6 @@ int* calculation(int argc, char** argv) {
 			case '*':
 				arr[i] = atoi(argv[i * 3 + 1]) * atoi(argv[i * 3 + 3]);
 			        break;
-			case '/':
-				arr[i] = atoi(argv[i * 3 + 1]) / atoi(argv[i * 3 + 3]);
-			        break;
 			case '%':
 				arr[i] = atoi(argv[i * 3 + 1]) % atoi(argv[i * 3 + 3]);
 				break;
@@ -76,6 +67,7 @@ int* calculation(int argc, char** argv) {
 
 char* vordDecode(int* numbers, int len, int key_num) { 
 	char* arr = malloc((len + 1) * sizeof(char));
+	assert(arr != NULL && "memory allocation error");
 	arr[len] = 0;
 	for(int i = 0; i < len; i++) {
 		if(numbers[i] - key_num < 32 || numbers[i] - key_num > 126) {
@@ -88,5 +80,3 @@ char* vordDecode(int* numbers, int len, int key_num) {
 	}
 	return arr;
 }
-
-#endif
