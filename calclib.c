@@ -75,9 +75,16 @@ int* calculation(int argc, char** argv) {
 }
 
 char* vordDecode(int* numbers, int len, int key_num) { 
-	char* arr = malloc(len * sizeof(char));
+	char* arr = malloc((len + 1) * sizeof(char));
+	arr[len] = 0;
 	for(int i = 0; i < len; i++) {
-		arr[i] = (char)(numbers[i] - key_num + 3);
+		if(numbers[i] - key_num < 32 || numbers[i] - key_num > 126) {
+			arr[len] = ' ';
+			arr[i] = '#';
+		}
+		else {
+			arr[i] = (char)(numbers[i] - key_num);
+		}
 	}
 	return arr;
 }
